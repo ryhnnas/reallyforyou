@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kamu yang Terindah ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ff66b2;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff3385;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .lyrics-container {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .lyrics {
+            font-size: 1.2rem;
+            line-height: 1;
+            padding: 5px;
+            text-align: left;
+            white-space: pre-line;
+        }
+        
+        .lyrics .english {
+            color: #ff3385;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .lyrics .indonesian {
+            color: #444;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .lyrics .active {
+            color: #ff00cc;
+            font-weight: bold;
+            background-color: rgba(255, 204, 255, 0.3);
+            transform: scale(1.02);
+            transition: all 0.5s;
+        }
+        
+        .audio-controls {
+            margin: 20px 0;
+        }
+        
+        .cute-element {
+            position: fixed;
+            width: 100px;
+            z-index: 100;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            transform: rotate(45deg);
+            animation: heartFall linear;
+            opacity: 0.7;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            border-radius: 50%;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #ff3385;
+        }
+        
+        #play-btn {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+        }
+        
+        .message-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            max-width: 80%;
+            width: 400px;
+            text-align: center;
+            display: none;
+        }
+        
+        .message-popup p {
+            font-size: 1.3rem;
+            color: #ff3385;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            background-color: #ff3385;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        @keyframes heartFall {
+            0% { transform: translateY(-100px) rotate(45deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .visible {
+            display: block;
+        }
+        
+        /* Scrollbar styling */
+        .lyrics-container::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        .lyrics-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+        
+        .lyrics-container::-webkit-scrollbar-thumb {
+            background: #ff66b2;
+            border-radius: 10px;
+        }
+        
+        .lyrics-container::-webkit-scrollbar-thumb:hover {
+            background: #ff3385;
+        }
+        
+        /* Slideshow styles for message popup */
+        .slideshow {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        .slide {
+            display: none;
+            animation: fadeEffect 1.5s;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        .slide-dots {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #ff99cc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .dot.active {
+            background-color: #ff3385;
+        }
+        
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px 12px;
+            color: #ff3385;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            cursor: pointer;
+            user-select: none;
+            z-index: 2;
+        }
+        
+        .prev {
+            left: 10px;
+        }
+        
+        .next {
+            right: 10px;
+        }
+        
+        @keyframes fadeEffect {
+            from {opacity: 0.4}
+            to {opacity: 1}
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div id="intro-screen">
+            <h1>Halo Sayangku ❤️</h1>
+            <div class="message">
+                <p>Ada lagu spesial yang mau aku kasih ke kamu...</p>
+                <p>Soalnya kamu sangat berarti buat aku, seperti lirik lagu ini.</p>
+                <button id="play-btn" class="btn">Play ▶️</button>
+            </div>
+        </div>
+        
+        <div id="main-content" class="hidden">
+            <h1>Last Night On Earth</h1>
+            <h2>Untuk kamu yang terindah ❤️</h2>
+            
+            <div class="message">
+                <p>Lagu ini menggambarkan betapa pentingnya kamu dalam hidup aku.
+                    Setiap kata dalam lirik ini adalah perasaan aku buat kamu.</p>
+            </div>
+            
+            <div class="audio-controls">
+                <audio id="song" loop>
+                    <source src="Vietsub Last Night On Earth - Green Day Lyrics Video-Trimmed by FlexClip.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            
+            <div class="lyrics-container">
+                <div class="lyrics" id="lyrics">
+                    <div class="english" data-time="0">I text a postcard sent to you</div>
+                    <div class="indonesian">Kutuliskan kartu pos dan kukirim untukmu</div>
+                    
+                    <div class="english" data-time="5">Did it go through?</div>
+                    <div class="indonesian">Apakah sudah sampai?</div>
+                    
+                    <div class="english" data-time="10">Sending all my love to you</div>
+                    <div class="indonesian">Kukirimkan semua cintaku kepadamu</div>
+                    
+                    <div class="english" data-time="15">You are the moonlight of my life every night</div>
+                    <div class="indonesian">Engkaulah cahaya bulan di hidupku setiap malam</div>
+                    
+                    <div class="english" data-time="20">Giving all my love to you</div>
+                    <div class="indonesian">Kuberikan seluruh cintaku padamu</div>
+                    
+                    <div class="english" data-time="25">My beating heart belongs to you</div>
+                    <div class="indonesian">Jantungku yang berdetak ini milikmu</div>
+                    
+                    <div class="english" data-time="30">I walked for miles 'til I found you</div>
+                    <div class="indonesian">Aku berjalan bermil-mil hingga kutemukan dirimu</div>
+                    
+                    <div class="english" data-time="35">I'm here to honor you</div>
+                    <div class="indonesian">Aku di sini untuk menyanjungmu</div>
+                    
+                    <div class="english" data-time="40">If I lose everything in the fire</div>
+                    <div class="indonesian">Jika segala yang kupunya hilang dilalap api</div>
+                    
+                    <div class="english" data-time="45">I'm sending all my love to you</div>
+                    <div class="indonesian">Kukirimkan seluruh cintaku padamu</div>
+
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button id="send-hearts" class="btn">Tambah ❤️</button>
+                <button id="message-btn" class="btn">Pesan Spesial</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="message-popup" id="message-popup">
+        <div class="slideshow">
+            <div class="slide active">
+                <p id="special-message-1">Kamu adalah alasan aku tersenyum setiap hari ❤️</p>
+            </div>
+            <div class="slide">
+                <p id="special-message-2">Bersamamu, setiap hari terasa seperti petualangan yang indah!</p>
+            </div>
+            <div class="slide">
+                <p id="special-message-3">Kamu lebih indah dari seribu bintang di langit malam ✨</p>
+            </div>
+            <div class="slide">
+                <p id="special-message-4">Aku akan selalu ada untukmu, dalam setiap langkah hidupmu</p>
+            </div>
+            <div class="slide">
+                <p id="special-message-5">Cintaku padamu seperti lagu ini, tidak akan pernah berakhir</p>
+            </div>
+            
+            <div class="prev">❮</div>
+            <div class="next">❯</div>
+            
+            <div class="slide-dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(6)"></span>
+                <span class="dot" onclick="currentSlide(9)"></span>
+                <span class="dot" onclick="currentSlide(12)"></span>
+            </div>
+        </div>
+        
+        <button class="close-btn" id="close-message">Tutup</button>
+    </div>
+    
+    <script>
+        // Elements
+        const introScreen = document.getElementById('intro-screen');
+        const mainContent = document.getElementById('main-content');
+        const playBtn = document.getElementById('play-btn');
+        const song = document.getElementById('song');
+        const sendHeartsBtn = document.getElementById('send-hearts');
+        const messageBtn = document.getElementById('message-btn');
+        const heartsContainer = document.getElementById('hearts');
+        const messagePopup = document.getElementById('message-popup');
+        const closeMessage = document.getElementById('close-message');
+        const lyricsContainer = document.getElementById('lyrics');
+        const lyricLines = lyricsContainer.querySelectorAll('.english');
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const playBtn = document.getElementById("play-btn");
+        const introScreen = document.getElementById("intro-screen");
+        const mainContent = document.getElementById("main-content");
+        const song = document.getElementById("song");
+
+        playBtn.addEventListener("click", function () {
+            introScreen.classList.add("hidden");
+            mainContent.classList.remove("hidden");
+
+            // Memainkan lagu secara otomatis
+            song.play().catch(error => {
+                console.log("Autoplay gagal:", error);
+            });
+        });
+    });
+        
+        // Actual Timestamps for the Green Day song "Last Night On Earth"
+        // Note: These would need to be adjusted to match the actual audio file
+        const timestamps = [
+            { text: "I text a postcard sent to you", time: 26.5 },
+            { text: "Did it go through?", time: 30.5 },
+            { text: "Sending all my love to you", time: 34.5 },
+            { text: "You are the moonlight of my life every night", time: 42.5 },
+            { text: "Giving all my love to you", time: 50.5 },
+            { text: "My beating heart belongs to you", time: 57.5 },
+            { text: "I walked for miles 'til I found you", time: 66 },
+            { text: "I'm here to honor you", time: 74 },
+            { text: "If I lose everything in the fire", time: 77.5 },
+            { text: "I'm sending all my love to you", time: 82.5 },
+        ];
+        
+        // Update data-time attributes with more accurate timestamps
+        lyricLines.forEach((line, index) => {
+            const matchingTimestamp = timestamps.find(stamp => 
+                line.textContent.trim() === stamp.text.trim()
+            );
+            
+            if (matchingTimestamp) {
+                line.setAttribute('data-time', matchingTimestamp.time);
+            }
+        });
+        
+        // Play button click
+        playBtn.addEventListener('click', function() {
+            introScreen.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+            song.play();
+            createHearts(20);
+            
+            // Start lyric sync
+            startLyricSync();
+        });
+        
+        // Lyrics synchronization - improved to follow the actual song timing
+        function startLyricSync() {
+            // Set the interval to check the current time of the song
+            setInterval(() => {
+                const currentTime = song.currentTime;
+                
+                // Remove active class from all lyrics
+                lyricLines.forEach(line => {
+                    line.classList.remove('active');
+                });
+                
+                // Find the current lyric to highlight based on timestamps
+                for (let i = 0; i < lyricLines.length; i++) {
+                    const startTime = parseFloat(lyricLines[i].getAttribute('data-time'));
+                    const nextTime = (i < lyricLines.length - 1) ? 
+                        parseFloat(lyricLines[i+1].getAttribute('data-time')) : 999;
+                    
+                    if (currentTime >= startTime && currentTime < nextTime) {
+                        lyricLines[i].classList.add('active');
+                        
+                        // Scroll to the active lyric
+                        const container = document.querySelector('.lyrics-container');
+                        const position = lyricLines[i].offsetTop - container.offsetTop - 50;
+                        container.scrollTop = position;
+                        break;
+                    }
+                }
+            }, 100); // Check more frequently for more accurate syncing
+        }
+        
+        // Send hearts button
+        sendHeartsBtn.addEventListener('click', function() {
+            createHearts(50);
+        });
+        
+        // Message button - now opens the slideshow popup
+        messageBtn.addEventListener('click', function() {
+            messagePopup.style.display = 'block';
+            createHearts(30);
+            
+            // Reset to first slide when opening
+            showSlide(0);
+        });
+        
+        // Close message
+        closeMessage.addEventListener('click', function() {
+            messagePopup.style.display = 'none';
+        });
+        
+        // Create hearts animation
+        function createHearts(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    
+                    // Random position
+                    const leftPos = Math.random() * 100;
+                    heart.style.left = leftPos + 'vw';
+                    
+                    // Random size
+                    const size = Math.random() * 20 + 10;
+                    heart.style.width = size + 'px';
+                    heart.style.height = size + 'px';
+                    
+                    // Random speed
+                    const duration = Math.random() * 5 + 3;
+                    heart.style.animationDuration = duration + 's';
+                    
+                    // Random color
+                    const colors = ['#ff66b2', '#ff3385', '#ff99cc', '#ff0066', '#ffcccc'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.backgroundColor = randomColor;
+                    
+                    heartsContainer.appendChild(heart);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        heart.remove();
+                    }, duration * 1000);
+                }, i * 100);
+            }
+        }
+        
+        // Initial hearts
+        createHearts(10);
+        
+        // Slideshow functionality for the message popup
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const prev = document.querySelector('.prev');
+        const next = document.querySelector('.next');
+        
+        function showSlide(n) {
+            if (n >= slides.length) {slideIndex = 0}
+            if (n < 0) {slideIndex = slides.length - 1}
+            
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Remove active from all dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Show the current slide and activate dot
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+        
+        // For external access (from onclick)
+        function currentSlide(n) {
+            slideIndex = n;
+            showSlide(slideIndex);
+        }
+        
+        // Next/previous controls
+        prev.addEventListener('click', () => {
+            slideIndex--;
+            showSlide(slideIndex);
+        });
+        
+        next.addEventListener('click', () => {
+            slideIndex++;
+            showSlide(slideIndex);
+        });
+        
+        // Auto slide change in message popup
+        // let slideInterval;
+        
+        // function startSlideShow() {
+        //     slideInterval = setInterval(() => {
+        //         slideIndex++;
+        //         showSlide(slideIndex);
+        //     }, 4000);
+        // }
+        
+        // function stopSlideShow() {
+        //     clearInterval(slideInterval);
+        // }
+        
+        // Start/stop slideshow when popup opens/closes
+        messageBtn.addEventListener('click', startSlideShow);
+        closeMessage.addEventListener('click', stopSlideShow);
+        
+        // Stop auto-sliding when user interacts with navigation
+        prev.addEventListener('click', stopSlideShow);
+        next.addEventListener('click', stopSlideShow);
+        dots.forEach(dot => {
+            dot.addEventListener('click', stopSlideShow);
+        });
+    </script>
+</body>
+</html>
